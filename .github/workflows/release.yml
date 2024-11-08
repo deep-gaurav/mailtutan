@@ -43,6 +43,8 @@ jobs:
     
     - name: List
       run: ls -la target/aarch64-unknown-linux-gnu/release
+    - name: pwd
+      run: pwd
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
