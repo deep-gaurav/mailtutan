@@ -49,8 +49,8 @@ jobs:
       run: ls -l /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
     - name: perm
       run: chmod 777 /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
-    - name: own
-      run: chown runner:runner /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
+    - name: file
+      run: file /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
     - name: List file
       run: ls -l /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
     - name: Build and push
