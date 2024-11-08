@@ -57,6 +57,14 @@ jobs:
       run: |
         mkdir -p ./target-release
         cp /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan ./target-release/mailtutan
+    - name: Add cert and pem
+      run: |
+        echo $CERT > ./target-release/cert.pem
+        echo $KEY > ./target-release/key.pem
+      env:
+        CERT: ${{ secrets.CERT }}
+        KEY: ${{ secrets.KEY }}
+
     - name: Build and push
       uses: docker/build-push-action@v6
       with:

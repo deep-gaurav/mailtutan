@@ -7,6 +7,8 @@ RUN apt update && \
 RUN mkdir /app
 
 COPY ./target-release/mailtutan /app/server
+COPY ./target-release/cert.pem /app/cert.pem
+COPY ./target-release/key.pem /app/key.pem
 
 WORKDIR /app
-ENTRYPOINT ["/bin/sh", "-c", "/app/server --smtp-relay-server $SMTP_SERVER --smtp-relay-server-username $SMTP_USER --smtp-relay-server-password $SMTP_PASS --smtp-auth-username $SMTP_LOGIN_USER --smtp-auth-password $SMTP_AUTH_PASS"]
+ENTRYPOINT ["/bin/sh", "-c", "/app/server --smtp-relay-server $SMTP_SERVER --smtp-relay-server-username $SMTP_USER --smtp-relay-server-password $SMTP_PASS --smtp-auth-username $SMTP_LOGIN_USER --smtp-auth-password $SMTP_AUTH_PASS --smtp-key-path /app/key.pem --smtp-cert-path /app/cert.pem"]

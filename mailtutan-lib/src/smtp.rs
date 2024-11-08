@@ -74,6 +74,7 @@ impl Builder {
         let mut server = mailin_embedded::Server::new(handler);
 
         server
+            .with_name("smtp-relay.deepgaurav.com")
             .with_ssl(self.ssl_config)
             .expect("SslConfig error")
             .with_addr(self.socket.unwrap())
