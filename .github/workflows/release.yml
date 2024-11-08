@@ -46,14 +46,7 @@ jobs:
     - name: pwd
       run: pwd
     - name: Build and push
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        platforms: linux/arm64
-        push: false
-        tags: mailrelay:latest
-        file: Dockerfile.arm64
-        outputs: type=docker,dest=mailrelay.tar
+      run: docker buildx build --platform linux/arm64 -f Dockerfile.arm64 -t mailrelay:tag .
 
     - name: Compress image
       run: gzip mailrelay.tar
