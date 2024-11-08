@@ -45,8 +45,10 @@ jobs:
       run: ls -la target/aarch64-unknown-linux-gnu/release
     - name: pwd
       run: pwd
+    - name: own
+      run: chown $USER:$USER /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtu
     - name: List file
-      run: ls -l /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan /app/server
+      run: ls -l /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
     - name: Build and push
       run: docker buildx build --platform linux/arm64 -f Dockerfile.arm64 -t mailrelay:tag .
 
