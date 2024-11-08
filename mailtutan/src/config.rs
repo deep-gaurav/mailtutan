@@ -38,8 +38,8 @@ pub struct Config {
     #[arg(
         long = "smtp-auth-username",
         env("MAILTUTAN_AUTH_USERNAME"),
-        requires = "smtp_key_path",
-        requires = "smtp_cert_path"
+        // requires = "smtp_key_path",
+        // requires = "smtp_cert_path"
     )]
     pub smtp_auth_username: Option<String>,
 
@@ -47,8 +47,8 @@ pub struct Config {
     #[arg(
         long = "smtp-auth-password",
         env("MAILTUTAN_AUTH_PASSWORD"),
-        requires = "smtp_key_path",
-        requires = "smtp_cert_path"
+        // requires = "smtp_key_path",
+        // requires = "smtp_cert_path"
     )]
     pub smtp_auth_password: Option<String>,
 
