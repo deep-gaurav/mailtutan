@@ -5,6 +5,7 @@ use anyhow::Result;
 use mailin::AuthMechanism;
 use mailin_embedded::response::{self, Response};
 use mailin_embedded::{Handler, SslConfig};
+use std::fs;
 use std::io;
 use std::net::SocketAddr;
 use std::sync::Arc;
@@ -53,6 +54,8 @@ impl Builder {
 
     pub fn with_ssl(mut self, cert_path: Option<String>, key_path: Option<String>) -> Self {
         if let (Some(cert_path), Some(key_path)) = (cert_path, key_path) {
+
+            println!("Certificate {:?}", fs::read_to_string(&cert_path));
             self.ssl_config = SslConfig::SelfSigned {
                 cert_path,
                 key_path,
