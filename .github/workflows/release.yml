@@ -48,7 +48,7 @@ jobs:
     - name: List file
       run: ls -l /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
     - name: own
-      run: chown $USER:$USER /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtu
+      run: chown $USER:$USER /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
     - name: List file
       run: ls -l /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan
     - name: Build and push
