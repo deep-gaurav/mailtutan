@@ -1,5 +1,9 @@
 FROM debian:bookworm-slim
 RUN mkdir /app
+
+COPY . /app/server
+RUN ls -lra /app/server
+
 COPY /home/runner/work/mailtutan/mailtutan/target/aarch64-unknown-linux-gnu/release/mailtutan /app/server
 
 WORKDIR /app
