@@ -23,7 +23,7 @@ impl Storage for SmtpRelay {
 
     fn add(&mut self, message: crate::models::Message) -> crate::models::Message {
         let orig = message.clone();
-        println!("Send to smtp {}", self.server);
+        println!("Send to smtp {:?}", self.server);
         let mailer = SmtpTransport::relay(&self.server).unwrap().credentials(self.credentials.clone()).build();
         let from = message.sender.parse::<Address>().expect("from not valid");
         let envelope = Envelope::new(Some(from), message.recipients.into_iter().map(|e|e.parse().expect("to not valid")).collect()).unwrap();
