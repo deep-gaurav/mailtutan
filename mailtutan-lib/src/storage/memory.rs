@@ -45,8 +45,8 @@ impl Storage for Memory {
         message
     }
 
-    fn get(&self, item: usize) -> Message {
-        self.records.get(&item).unwrap().clone()
+    fn get(&self, item: usize) -> Option<Message> {
+        self.records.get(&item).cloned()
     }
 
     fn remove(&mut self, item: usize) {

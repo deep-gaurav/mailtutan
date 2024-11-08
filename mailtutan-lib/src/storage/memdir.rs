@@ -54,7 +54,9 @@ impl Storage for Memdir {
             let path = path.unwrap().path();
             let id = usize::from_str(path.file_stem().unwrap().to_str().unwrap()).unwrap();
 
-            list.push(self.get(id));
+            if let Some(msg) = self.get(id) {
+                list.push(msg);
+            }
         }
 
         list
@@ -77,15 +79,19 @@ impl Storage for Memdir {
         message
     }
 
-    fn get(&self, item: usize) -> Message {
+    fn get(&self, item: usize) -> Option<Message> {
         let filename = format!("{}.eml", item);
 
-        let bytes = fs::read(self.path.join(filename)).unwrap();
+        if let Ok(bytes) = fs::read(self.path.join(filename)) {
 
-        let mut message = Message::from(&bytes).unwrap();
-        message.id = Some(item);
+            let mut message = Message::from(&bytes).unwrap();
+            message.id = Some(item);
+            Some(message)
+        }
+        else{
+            None
+        }
 
-        message
     }
 
     fn remove(&mut self, item: usize) {

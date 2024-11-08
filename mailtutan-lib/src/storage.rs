@@ -2,13 +2,15 @@ use crate::models::Message;
 
 mod memdir;
 mod memory;
+mod smtp_relay;
 pub use memdir::Memdir;
 pub use memory::Memory;
+pub use smtp_relay::SmtpRelay;
 
 pub trait Storage: Sync + Send {
     fn list(&self) -> Vec<Message>;
     fn add(&mut self, message: Message) -> Message;
-    fn get(&self, item: usize) -> Message;
+    fn get(&self, item: usize) -> Option<Message>;
     fn remove(&mut self, item: usize);
     fn size(&self) -> usize;
     fn delete_all(&mut self);

@@ -52,6 +52,19 @@ pub struct Config {
     )]
     pub smtp_auth_password: Option<String>,
 
+
+    #[arg(long="smtp-relay-server")]
+    pub smtp_relay_server: String,
+
+
+    #[arg(long="smtp-relay-server-username")]
+    pub smtp_relay_server_username: String,
+    
+    
+    #[arg(long="smtp-relay-server-password")]
+    pub smtp_relay_server_password: String,
+    
+
     /// HTTP Auth
     #[arg(
         long = "http-auth",
@@ -75,28 +88,4 @@ pub struct Config {
         default_value = "admin"
     )]
     pub http_password: String,
-
-    /// Messages Limit
-    #[arg(
-        long = "messages-limit",
-        env("MAILTUTAN_MESSAGES_LIMIT"),
-        default_value_t = 1000
-    )]
-    pub messages_limit: usize,
-
-    /// Storage
-    #[arg(long = "storage", env("MAILTUTAN_STORAGE"), default_value = "memory")]
-    pub storage: StorageType,
-
-    /// Storage
-    #[arg(
-        long = "maildir-path",
-        env("MAILTUTAN_MAILDIR_PATH"),
-        default_value = "maildir"
-    )]
-    pub maildir_path: String,
-
-    /// Web Hook
-    #[arg(long = "web-hook", env("MAILTUTAN_WEB_HOOK"))]
-    pub web_hook: Option<String>,
 }

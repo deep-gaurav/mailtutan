@@ -1,55 +1,58 @@
-name: Release Artifacts
-on:
-  push:
-    tags:
-      - 'v*'
+name: Build and Deploy to Self Cloud
 
-permissions:
-  contents: write
+on:
+  workflow_dispatch:  # Trigger manually
+
+
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
-  publish:
-      name: Publish for ${{ matrix.os }}
-      runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          name: [
-              linux,
-              windows,
-              macos
-          ]
+  build:
+    runs-on: ubuntu-latest
 
-          include:
-            - name: linux
-              os: ubuntu-latest
-              artifact_name: target/release/mailtutan
-              asset_name: mailtutan-linux-amd64
-            - name: windows
-              os: windows-latest
-              artifact_name: target/release/mailtutan.exe
-              asset_name: mailtutan-windows-amd64
-            - name: macos
-              os: macos-latest
-              artifact_name: target/release/mailtutan
-              asset_name: mailtutan-macos-amd64
+    steps:
+    - uses: actions/checkout@v3
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v1
+    - name: Use cache
+      id: cache-rust
+      uses: actions/cache@v4
+      with:
+        key: ${{ runner.os }}-build-${{ hashFiles('**/Cargo.lock') }}
+        path: |
+          /home/runner/.cargo
+          /home/runner/work/tvmate/tvmate/target
+        restore-keys: |
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+            
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y clang cmake libevent-dev libclang-dev libcurl4-openssl-dev curl gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
-        - name: Install latest rust toolchain
-          uses: actions-rs/toolchain@v1
-          with:
-            profile: minimal
-            toolchain: stable
+    - name: Add aarch64
+      run: rustup target add aarch64-unknown-linux-gnu
 
-        - name: Build
-          run: cargo build -p mailtutan --release --locked
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
-        - name: Upload binaries to release
-          uses: svenstaro/upload-release-action@v2
-          with:
-            file: ${{ matrix.artifact_name }}
-            asset_name: ${{ matrix.asset_name }}
-            tag: ${{ github.ref }}
-            overwrite: true
+    - name: Build
+      run: cargo build --release --target aarch64-unknown-linux-gnu
+        
+    - name: Build and push
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        platforms: linux/arm64
+        push: false
+        tags: mailrelay:latest
+        file: Dockerfile.arm64
+        outputs: type=docker,dest=mailrelay.tar
+
+    - name: Compress image
+      run: gzip mailrelay.tar
+
+    - name: Push To SelfCloud
+      run: |
+        curl --location --fail --show-error 'https://bigcloud.deepwith.in/cloud/image/push' --form 'project_id="deb1901d-d809-407a-beb5-a7f679923d94"' --form "token=$SELFCLOUD_TOKEN" --form 'image=@"mailrelay.tar.gz"'
+      env:
+        SELFCLOUD_TOKEN: ${{ secrets.BIGCLOUD_TOKEN }}

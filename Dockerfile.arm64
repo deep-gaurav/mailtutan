@@ -1,0 +1,6 @@
+FROM debian:bookworm-slim
+RUN mkdir /app
+COPY target/aarch64-unknown-linux-gnu/release/mailtutan /app/server
+
+WORKDIR /app
+ENTRYPOINT ["/bin/sh", "-c", "/app/server --smtp-relay-server $SMTP_SERVER --smtp-relay-server-username $SMTP_USER --smtp-relay-server-password $SMTP_PASS"]
