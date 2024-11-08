@@ -21,7 +21,7 @@ members = [
 [workspace.dependencies]
 anyhow = "1.0.71"
 chrono = "0.4.26"
-lettre = "0.11.10"
+lettre ={ version = "0.11.10", features = ["rustls-tls","smtp-transport", "builder"], default-features = false}
 
 [workspace.metadata.cross.target.aarch64-unknown-linux-gnu]
 # Install libssl-dev:arm64, see <https://github.com/cross-rs/cross/blob/main/docs/custom_images.md#adding-dependencies-to-existing-images>
