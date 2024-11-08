@@ -46,15 +46,8 @@ impl Message {
 
         let sender = {
             if let HeaderValue::Address(addr) = message.from() {
-                if let Some(name) = addr.name.as_ref() {
-                    format!(
-                        "{} {}",
-                        name,
-                        addr.address.as_ref().context("parse sender address")?
-                    )
-                }else{
                     format!("{}",addr.address.as_ref().context("parse sender address")?)
-                }
+                
             } else {
                 "".to_owned()
             }
