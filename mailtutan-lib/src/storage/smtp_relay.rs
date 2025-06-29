@@ -28,6 +28,7 @@ impl Storage for SmtpRelay {
         println!("Send to smtp {:?}", self.server);
         let mailer = SmtpTransport::starttls_relay(&self.server).unwrap().credentials(self.credentials.clone()).build();
         let from = message.sender.parse::<Address>().expect("from not valid");
+        println!("From {:?}", from);
         let envelope = Envelope::new(Some(from), message.recipients.into_iter().map(|e|e.parse().expect("to not valid")).collect()).unwrap();
         println!("Envelope {:?}", envelope);
         mailer.send_raw(
