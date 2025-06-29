@@ -79,6 +79,6 @@ jobs:
 
     - name: Push To SelfCloud
       run: |
-        curl --location --fail --show-error 'https://bigcloud.deepwith.in/cloud/image/push' --form 'project_id="deb1901d-d809-407a-beb5-a7f679923d94"' --form "token=$SELFCLOUD_TOKEN" --form 'image=@"mailrelay.tar.gz"'
+        curl --location --fail --show-error 'https://bigcloud.deepgaurav.com/cloud/image/push' --form 'project_id="deb1901d-d809-407a-beb5-a7f679923d94"' --form "token=$SELFCLOUD_TOKEN" --form 'image=@"mailrelay.tar.gz"'
       env:
         SELFCLOUD_TOKEN: ${{ secrets.BIGCLOUD_TOKEN }}
