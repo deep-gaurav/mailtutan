@@ -27,12 +27,11 @@ primary_region = "bom"
 
   [[services.ports]]
     port = 25
-    handlers = ["smtp"]
 
   [[services.ports]]
     port = 465
-    handlers = ["tls", "smtp"]
+    handlers = ["tls"]
 
   [[services.ports]]
     port = 587
-    handlers = ["tls", "smtp"]
+    handlers = ["tls"]
