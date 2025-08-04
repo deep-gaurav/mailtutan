@@ -8,7 +8,7 @@ COPY ./ ./
 RUN cargo build --release --target x86_64-unknown-linux-musl
 RUN strip target/x86_64-unknown-linux-musl/release/mailtutan
 
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 RUN apt-get update &&     apt-get install -y libssl1.1 ca-certificates &&     apt-get clean
 
