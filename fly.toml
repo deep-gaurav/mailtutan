@@ -4,7 +4,7 @@
 #
 
 app = "mailtutan"
-primary_region = "bom"
+# primary_region = "bom"
 
 [env]
   HTTP_USERNAME = "mailtutan"
