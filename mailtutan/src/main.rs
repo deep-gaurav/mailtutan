@@ -39,9 +39,13 @@ async fn main() {
         .build();
 
 
-    tokio::select! {
+    let http_server = axum::Server::bind(&"0.0.0.0:1080".parse().unwrap())
+        .serve(mailtutan_lib::api::app(state.clone()).into_make_service());
 
+    tokio::select! {
         _ = runtime.spawn(smtp_server.serve()) => {
+        }
+        _ = runtime.spawn(http_server) => {
         }
         _ = signal::ctrl_c() => {
         }

@@ -1,0 +1,38 @@
+# fly.toml app configuration file generated for mailtutan
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "mailtutan"
+primary_region = "bom"
+
+[env]
+  HTTP_USERNAME = "mailtutan"
+  HTTP_PASSWORD = "mailtutan"
+  IP = "0.0.0.0"
+  SMTP_PORT = "1025"
+  API_PORT = "1080"
+
+[http_service]
+  internal_port = 1080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[services]]
+  internal_port = 1025
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 25
+    handlers = ["smtp"]
+
+  [[services.ports]]
+    port = 465
+    handlers = ["tls", "smtp"]
+
+  [[services.ports]]
+    port = 587
+    handlers = ["tls", "smtp"]

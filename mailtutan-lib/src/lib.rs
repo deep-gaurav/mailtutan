@@ -1,6 +1,7 @@
 pub mod auth;
 pub mod models;
 pub mod smtp;
+pub mod api;
 pub mod storage;
 
 use std::sync::RwLock;
